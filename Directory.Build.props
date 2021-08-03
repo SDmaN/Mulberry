@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project>
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Authors>Serdyukov Dmitrii (SDmaN)</Authors>
+    <Version>0.0.1</Version>
+    <RepositoryUrl>https://github.com/SDmaN/Mulberry</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SDmaN/Mulberry</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <FsDocsLicenseLink>https://github.com/SDmaN/Mulberry/blob/main/LICENSE</FsDocsLicenseLink>
+    <FsDocsReleaseNotesLink>https://github.com/SDmaN/Mulberry/blob/main/CHANGELOG.md</FsDocsReleaseNotesLink>
+  </PropertyGroup>
+</Project>

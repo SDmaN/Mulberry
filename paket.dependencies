@@ -1,0 +1,15 @@
+version 5.257.0
+
+source https://api.nuget.org/v3/index.json
+framework: netstandard2.0, net5.0, netcoreapp3.1
+storage: none
+
+nuget FSharp.Core
+
+group Fake
+    source https://api.nuget.org/v3/index.json
+    storage: none
+
+    nuget Fake.Core.Target
+    nuget Fake.Core.ReleaseNotes
+    nuget Fake.DotNet.Cli

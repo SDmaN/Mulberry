@@ -6,14 +6,22 @@ open TestCollect
 /// <summary>
 /// Parameters of testing process.
 /// </summary>
-/// <param name="workersAmount">Amount of test workers (browsers) that run in parallel</param>
-type RunConfiguration(?workersAmount: int) =
+/// <param name="workersAmount">Amount of test workers (browsers) that run in parallel. Defaults to 1.</param>
+/// <param name="failIfAnyWip">Run will fail if there is at least one wip test. Defaults to false.</param>
+type RunConfiguration(?workersAmount: int, ?failIfAnyWip: bool) =
     let workersAmount = defaultArg workersAmount 1
+    let failIfAnyWip = defaultArg failIfAnyWip false
 
     /// <summary>
     /// Returns amount of test workers (browsers) that run in parallel.
     /// </summary>
     member _.WorkersAmount = workersAmount
+
+    /// <summary>
+    /// Returns value indicating run will fail if there is at least one wip test..
+    /// </summary>
+    member _.FailIfAnyWip = failIfAnyWip
+
 
 /// <summary>
 /// Contains functions for tests execution.
@@ -82,9 +90,41 @@ module Runner =
 
                 loop [] 0 0 None)
 
+    let private failIfWipsIfNeeded (cfg: RunConfiguration) contexts globalContext =
+        if cfg.FailIfAnyWip then
+            let wipTests =
+                contexts
+                |> List.collect (fun x -> x.Tests)
+                |> List.append globalContext.Tests
+                |> List.filter
+                    (function
+                    | Wip _ -> true
+                    | _ -> false)
+
+            if wipTests.Length > 0 then
+                let testNames =
+                    wipTests
+                    |> List.map
+                        (fun t ->
+                            match t with
+                            | Wip (n, _) -> Some n
+                            | _ -> None)
+                    |> List.choose id
+                    |> String.concat "\n"
+
+                failwith (
+                    sprintf
+                        "Flag %s is %b and there is wip tests:\n%s"
+                        (nameof cfg.FailIfAnyWip)
+                        cfg.FailIfAnyWip
+                        testNames
+                )
 
     let private runInternal cfg postGetter =
         endContext ()
+
+        failIfWipsIfNeeded cfg collectedContexts globalContext
+
         let runner = create ()
         let post = postGetter (runner)
 

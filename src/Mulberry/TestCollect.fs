@@ -1,17 +1,17 @@
 ﻿/// <summary>
-/// Contains functions to create and run tests.
+/// Contains functions to create tests.
 /// </summary>
 module Mulberry.TestCollect
 
 open System
 
-type TestFunc = unit -> unit
+type TestBody = unit -> unit
 
 type internal Test =
-    | Test of Name: string * Invoke: TestFunc
-    | Wip of Name: string * Invoke: TestFunc
-    | Skip of Name: string * Invoke: TestFunc
-    | Many of Count: int * Name: string * Invoke: TestFunc
+    | Test of Name: string * Body: TestBody
+    | Wip of Name: string * Body: TestBody
+    | Skip of Name: string * Invoke: TestBody
+    | Many of Count: int * Name: string * Invoke: TestBody
 
 type internal TestContext = { Name: string; Tests: Test list }
 

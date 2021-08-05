@@ -8,7 +8,10 @@
     <Description>Lightweight E2E testing library</Description>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Utils.fs" />
     <Compile Include="TestCollect.fs" />
+    <Compile Include="Worker.fs" />
+    <Compile Include="Runner.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
